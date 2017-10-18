@@ -1,4 +1,4 @@
-{ nixpkgs ? <nixpkgs>, declInput ? {} } : 
+{ nixpkgs ? /nix/var/nix/profiles/per-user/root/channels/nixos/nixpkgs, declInput ? {} } : 
 let 
   pkgs = import nixpkgs {};
   jobsetAttrs = {};
