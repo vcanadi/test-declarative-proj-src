@@ -1,4 +1,4 @@
-{ nixpkgs ? <nixpkgs>, declInput ? {} } : 
+{ nixpkgs, declInput } : 
 let 
   pkgs = import nixpkgs {};
   jobsetAttrs = {};
