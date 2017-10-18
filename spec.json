@@ -1,0 +1,16 @@
+{
+  "enabled": 1,
+  "hidden": false,
+  "description": "Jobsets",
+  "nixexprinput": "src",
+  "nixexprpath": "jobsets.nix",
+  "checkinterval": 60,
+  "schedulingshares": 420,
+  "enableemail": true,
+  "emailoverride": "",
+  "keepnr": 3,
+  "inputs": {
+  "src": { "type": "path", "value": "/home/hydra/test-declarative-proj-src", "emailresponsible": false }
+  }
+
+}
