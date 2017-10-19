@@ -10,7 +10,7 @@
   "emailoverride": "",
   "keepnr": 3,
   "inputs": {
-    "src": { "type": "git", "value": "https://github.com/vcanadi/test-declarative-proj-src", "emailresponsible": false }
+    "src": { "type": "path", "value": "/home/hydra/test-declarative-proj-src", "emailresponsible": false }
   , "nixpkgs": { "type": "git", "value": "https://github.com/NixOS/nixpkgs-channels.git nixos-17.09", "emailresponsible": false }
   }
 

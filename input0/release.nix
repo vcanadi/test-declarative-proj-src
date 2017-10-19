@@ -8,7 +8,6 @@ let
       echo buildPhase 
       echo src: $src
       echo out: $out
-      mkdir $out
       ls $out
     '';
     installPhase = '' 
