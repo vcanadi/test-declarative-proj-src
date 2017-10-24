@@ -20,7 +20,7 @@ let
   };
 in {
   hs-proj0-0 = hs-proj0; 
-  hs-proj0-1 = hs-proj0; 
+  #hs-proj0-1 = hs-proj0; 
 }
 
 

@@ -33,7 +33,7 @@ let
 
   jobsetAttrs = pkgs.lib.mapAttrs (name : settings : settings // defaultSettings ) { 
     trivialJobset0 = trivialJobset; 
-    trivialJobset1 = trivialJobset; 
+    #trivialJobset1 = trivialJobset; 
   };
   jobsetJson = pkgs.writeText "jobsets.json" (builtins.toJSON (builtins.trace jobsetAttrs jobsetAttrs));
 in {
