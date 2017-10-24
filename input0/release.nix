@@ -1,10 +1,10 @@
 let
-  hs-proj0 = { nixpkgs, system ? builtins.currentSystem } :
+  hs-job0 = { nixpkgs, system ? builtins.currentSystem } :
   let 
     pkgs = import nixpkgs {};
   in
   pkgs.stdenv.mkDerivation {
-    name = "hs-proj0";
+    name = "hs-job";
     src = ./.;
     buildPhase = ''
       echo BUILD_PHASE 
@@ -19,8 +19,8 @@ let
     '';
   };
 in {
-  hs-proj0-0 = hs-proj0; 
-  #hs-proj0-1 = hs-proj0; 
+  hs-job0-0 = hs-job0; 
+  #hs-job0-1 = hs-job0; 
 }
 
 
