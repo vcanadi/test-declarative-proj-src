@@ -1,26 +1,32 @@
 let
-  hs-job0 = { nixpkgs, system ? builtins.currentSystem } :
+  hs-job0 = { nixpkgs ? <nixpkgs>, system ? builtins.currentSystem } :
   let 
     pkgs = import nixpkgs {};
   in
-  pkgs.stdenv.mkDerivation {
-    name = "hs-job";
-    src = ./.;
-    buildPhase = ''
-      echo BUILD_PHASE 
-      echo src: $src
-      echo out: $out
-      ls $out
-    '';
-    installPhase = '' 
-      echo INSTALL_PHASE 
-      echo src: $src
-      echo out: $out
-    '';
+  pkgs.releaseTools.nixBuild {
+  name = "simple";
+  builder = "${pkgs.bash}/bin/bash";
+  args = [( builtins.toFile "tmp_builder.sh" '' 
+    echo -------------------
+    echo ----IN_BUILDER-----
+    echo -------------------
+    export PATH="$coreutils/bin:$gcc/bin"
+    mkdir $out
+    gcc -o $out/simple $src
+  '')];
+
+  inherit (pkgs.gcc);
+  inherit (pkgs.coreutils);
+
+  src = builtins.toFile "tmp_simple.c" ''
+    void main () { 
+      puts ("Simple!");
+    }
+  '';
+  system = builtins.currentSystem;
   };
 in {
   hs-job0-0 = hs-job0; 
   #hs-job0-1 = hs-job0; 
 }
-
 
