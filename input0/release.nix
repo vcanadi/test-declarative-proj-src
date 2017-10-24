@@ -3,6 +3,7 @@ let
   let 
     pkgs = import nixpkgs {};
   in
+  with pkgs;
   pkgs.releaseTools.nixBuild {
   name = "simple";
   builder = "${pkgs.bash}/bin/bash";
@@ -15,8 +16,7 @@ let
     gcc -o $out/simple $src
   '')];
 
-  inherit (pkgs.gcc);
-  inherit (pkgs.coreutils);
+  inherit gcc coreutils;
 
   src = builtins.toFile "tmp_simple.c" ''
     void main () { 

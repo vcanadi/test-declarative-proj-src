@@ -2,7 +2,6 @@
 let 
   pkgs = import nixpkgs {};
 
-
   defaultSettings = {
     enabled = 1;
     hidden = false;
