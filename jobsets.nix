@@ -1,4 +1,4 @@
-{ nixpkgs ? <nixpkgs>, declInput ? {} } : 
+{ nixpkgs , declInput ? {} } : 
 let 
   pkgs = import nixpkgs {};
 
@@ -9,6 +9,8 @@ let
     keepnr = 1;
     schedulingshares = 42;
     checkinterval = 5;
+    enableemail = false;
+    emailoverride = "";
   };
 
   trivialJobset = {
@@ -19,16 +21,21 @@ let
       input0 = { 
         type = "git"; 
         value = "https://github.com/vcanadi/test-declarative-proj-src"; 
-        emailresponsible = true; 
+        emailresponsible = false; 
+      };
+      nixpkgs = { 
+        type = "git";
+        value = "https://github.com/NixOS/nixpkgs-channels.git nixos-17.09";
+        emailresponsible = false;
       };
     };
-    enableemail = true;
   };
 
   jobsetAttrs = pkgs.lib.mapAttrs (name : settings : settings // defaultSettings ) { 
-    trivialJobset = trivialJobset; 
+    trivialJobset0 = trivialJobset; 
+    trivialJobset1 = trivialJobset; 
   };
-  jobsetJson = pkgs.writeText "jobsets.json" (builtins.toJSON jobsetAttrs);
+  jobsetJson = pkgs.writeText "jobsets.json" (builtins.toJSON (builtins.trace jobsetAttrs jobsetAttrs));
 in {
   jobsets = pkgs.runCommand "jobsets.json" {} ''
     cp ${jobsetJson} $out
