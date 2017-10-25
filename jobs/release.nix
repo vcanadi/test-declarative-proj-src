@@ -6,15 +6,14 @@ let
   with pkgs;
   pkgs.releaseTools.nixBuild {
     name = "simple";
-    builder = "${pkgs.bash}/bin/bash";
-    args = [( builtins.toFile "tmp_builder.sh" '' 
+    buildCommand = '' 
       echo -------------------
       echo ----IN_BUILDER-----
       echo -------------------
       export PATH="$coreutils/bin:$gcc/bin"
       mkdir $out
       gcc -o $out/simple $src
-    '')];
+    '';
 
     inherit gcc coreutils;
 
@@ -23,7 +22,7 @@ let
         puts ("Simple!");
       }
     '';
-    system = builtins.currentSystem;
+    inherit system;
     meta = {
       maintainer = "vito.canadi@gmail.com";
     };

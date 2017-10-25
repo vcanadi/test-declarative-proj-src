@@ -34,9 +34,9 @@ let
     trivialJobset0 = trivialJobset; 
     #trivialJobset1 = trivialJobset; 
   };
-  jobsetJson = pkgs.writeText "jobsets.json" (builtins.toJSON (builtins.trace jobsetAttrs jobsetAttrs));
+  jobsetJson = pkgs.writeText "jobsets.json" (builtins.toJSON jobsetAttrs );
 in {
-  jobsets = pkgs.runCommand "jobsets.json" {} ''
+  jobsets = pkgs.runCommand "tmp_jobsets.json" {} ''
     cp ${jobsetJson} $out
   '';
 }
