@@ -13,11 +13,11 @@ let
   };
 
   trivialJobset = {
-    nixexprpath = "input0/release.nix";
-    nixexprinput = "input0";
+    nixexprpath = "jobs/release.nix";
+    nixexprinput = "jobsSrc";
     description = "Builds for deployments";  
     inputs = {
-      input0 = { 
+      jobsSrc = { 
         type = "git"; 
         value = "https://github.com/vcanadi/test-declarative-proj-src"; 
         emailresponsible = false; 
