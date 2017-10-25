@@ -5,15 +5,14 @@ let
   in
   with pkgs;
   pkgs.releaseTools.nixBuild {
-    name = "simple";
+    name = "simple-program";
     buildCommand = '' 
-      echo -------------------
-      echo ----IN_BUILDER-----
-      echo -------------------
+      echo ---SIMPLE_PROGRAM_BUILD_COMMAND---
       export PATH="$coreutils/bin:$gcc/bin"
       mkdir $out
       gcc -o $out/simple $src
     '';
+    passAsFile = [ "buildCommand" ];
 
     inherit gcc coreutils;
 
@@ -24,6 +23,11 @@ let
     '';
     inherit system;
     meta.maintainer = "vito.canadi@gmail.com";
+
+    postInstall = '' 
+      echo ---SIMPLE_PROGRAM_POST_INSTALL---
+    '';
+
   };
 in {
   hs-job0-0 = hs-job0; 

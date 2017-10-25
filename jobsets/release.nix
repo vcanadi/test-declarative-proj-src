@@ -37,12 +37,19 @@ let
   jobsetJson = pkgs.writeText "jobsets.json" (builtins.toJSON jobsetAttrs );
 in {
   jobsets = pkgs.releaseTools.nixBuild {
-    name = "tmp_jobsets.json";
+    name = "job-for-creating-jobsets";
     buildCommand = ''
+      echo ---JOB_FOR_CREATING_JOBSETS_BUILD_COMMAND--- 
       cp ${jobsetJson} $out
     '';
     passAsFile = [ "buildCommand" ];
     src = ./.;
+
+    postInstall = ''
+      echo ---JOB_FOR_CREATING_JOBSETS_POST_INSTALL--- 
+    '';
+
+
     meta.maintainer = "vito.canadi@gmail.com";
   };
   #jobsets = pkgs.runCommand "tmp_jobsets.json" {} ''
