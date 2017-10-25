@@ -2,6 +2,9 @@
 let 
   pkgs = import nixpkgs {};
 
+  utils = import ../utils.nix;
+  placeBashLogCall = utils.mkPlaceBashLogCall "JOB_FOR_CREATING_JOBSETS"; 
+
   defaultSettings = {
     enabled = 1;
     hidden = false;
@@ -39,16 +42,14 @@ in {
   jobsets = pkgs.releaseTools.nixBuild {
     name = "job-for-creating-jobsets";
     buildCommand = ''
-      echo ---JOB_FOR_CREATING_JOBSETS_BUILD_COMMAND--- 
+      ${placeBashLogCall "BUILD_COMMAND"}
       cp ${jobsetJson} $out
     '';
     passAsFile = [ "buildCommand" ];
     src = ./.;
-
     postInstall = ''
-      echo ---JOB_FOR_CREATING_JOBSETS_POST_INSTALL--- 
+      ${placeBashLogCall "POST_INSTALL"}
     '';
-
 
     meta.maintainer = "vito.canadi@gmail.com";
   };
