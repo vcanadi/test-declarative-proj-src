@@ -23,9 +23,7 @@ let
       }
     '';
     inherit system;
-    meta = {
-      maintainer = "vito.canadi@gmail.com";
-    };
+    meta.maintainer = "vito.canadi@gmail.com";
   };
 in {
   hs-job0-0 = hs-job0; 

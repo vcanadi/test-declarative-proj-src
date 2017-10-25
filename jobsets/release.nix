@@ -36,7 +36,16 @@ let
   };
   jobsetJson = pkgs.writeText "jobsets.json" (builtins.toJSON jobsetAttrs );
 in {
-  jobsets = pkgs.runCommand "tmp_jobsets.json" {} ''
-    cp ${jobsetJson} $out
-  '';
+  jobsets = pkgs.releaseTools.nixBuild {
+    name = "tmp_jobsets.json";
+    buildCommand = ''
+      cp ${jobsetJson} $out
+    '';
+    passAsFile = [ "buildCommand" ];
+    src = ./.;
+    meta.maintainer = "vito.canadi@gmail.com";
+  };
+  #jobsets = pkgs.runCommand "tmp_jobsets.json" {} ''
+    #cp ${jobsetJson} $out
+  #'';
 }
