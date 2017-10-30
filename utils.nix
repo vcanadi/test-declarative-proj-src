@@ -13,10 +13,14 @@ rec {
   let 
     logPath = mkLogPath label;
   in
+    mkPlaceBashLogCallWithPath logPath txt;
+      
+  mkPlaceBashLogCallWithPath = logPath : txt :
     tracePretty  
       ("placeBashLogCall " + txt)  
       "echo ${txt} > ${logPath}";
-       
+     
+ 
   #mkLog = label : 
   #let 
     #logPath = mkLogPath label;

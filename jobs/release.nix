@@ -1,16 +1,17 @@
-let
-  utils = import ../utils.nix;
-  placeBashLogCall = utils.mkPlaceBashLogCall "SIMPLE_PROGRAM"; 
-
-  hs-job0 = { nixpkgs ? <nixpkgs>, system ? builtins.currentSystem } :
+let 
+  hs-job0 = { nixpkgs, system , logpath} :
   let 
     pkgs = import nixpkgs {};
+
+    #utils = import ../utils.nix;
+    #placeBashLogCall = utils.mkPlaceBashLogCallWithPath logpath ; 
+    placeBashLogCall = x : "";
   in
   with pkgs;
   pkgs.releaseTools.nixBuild {
     name = "simple-program";
     buildCommand = '' 
-      ${placeBashLogCall "BUILD_COMMAND"} 
+      ${placeBashLogCall "BUILD_COMMAND"}
       export PATH="$coreutils/bin:$gcc/bin"
       mkdir $out
       gcc -o $out/simple $src
@@ -28,8 +29,9 @@ let
     meta.maintainer = "vito.canadi@gmail.com";
 
     postInstall = '' 
-      ${placeBashLogCall "POST_INSTALL"} 
+      ${placeBashLogCall "POST_INSTALL"}
     '';
+
 
   };
 in {
