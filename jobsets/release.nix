@@ -1,9 +1,17 @@
-{ nixpkgs , declInput ? {} } : 
+{ nixpkgs , trivialJobsetsPrsJSON,  declInput } : 
 let 
   pkgs = import nixpkgs {};
 
+  mkFetchGithub = value: {
+    inherit value;
+    type = "git";
+    emailresponsible = false;
+  };
+
   utils = import ../utils.nix;
   placeBashLogCall = utils.mkPlaceBashLogCall "JOB_FOR_CREATING_JOBSETS"; 
+
+  trivialJobsetsPrs = builtins.fromJSON (builtins.readFile trivialJobsetsPrsJSON);
 
   defaultSettings = {
     enabled = 1;
@@ -15,21 +23,31 @@ let
     emailoverride = "";
   };
 
-  trivialJobset = {
+  mkTrivialJobset = num: info: {
+    name = "trivialJobsetSrc${num}";
+    value = {
+      description = "PR ${num}: ${info.title}";
+      nixexprinput = "trivial";
+      nixexprpath = "release.nix";
+      inputs = {
+        nixpkgs = mkFetchGithub "https://github.com/NixOS/nixpkgs-channels.git nixos-17.09";
+        trivialJobsetSrc = mkFetchGithub "https://github.com/${info.head.repo.owner.login}/${info.head.repo.name}.git ${info.head.ref}";
+      };
+    };
+  };
+
+  trivialJobsetHardCoded = {
     nixexprpath = "jobs/release.nix";
-    nixexprinput = "jobsSrc";
+    nixexprinput = "trivialJobsetSrc";
     description = "Builds for deployments";  
     inputs = {
-      jobsSrc = { 
-        type = "path"; 
-        value = "/home/hydra/test-declarative-proj-src"; 
-        emailresponsible = false; 
-      };
-      nixpkgs = { 
-        type = "git";
-        value = "https://github.com/NixOS/nixpkgs-channels.git nixos-17.09";
-        emailresponsible = false;
-      };
+      #jobsSrc = { 
+        #type = "path"; 
+        #value = "/home/hydra/test-declarative-proj-src"; 
+        #emailresponsible = false; 
+      #};
+      nixpkgs = mkFetchGithub "https://github.com/NixOS/nixpkgs-channels.git nixos-17.09";
+      trivialJobsetSrc = mkFetchGithub "https://github.com/vcanadi/test-declarative-proj-src.git";
       system = {
         type = "string";
         value = builtins.currentSystem;
@@ -45,11 +63,16 @@ let
     };
   };
 
-  jobsetAttrs = pkgs.lib.mapAttrs (name : settings : settings // defaultSettings ) { 
-    trivialJobset0 = trivialJobset; 
-    #trivialJobset1 = trivialJobset; 
-  };
+  trivialJobsets = pkgs.lib.listToAttrs (pkgs.lib.mapAttrsToList mkTrivialJobset trivialJobsetsPrs);
+
+  jobsetAttrs = pkgs.lib.mapAttrs (name : settings : settings // defaultSettings ) ({ 
+    trivialJobsetHardCoded = trivialJobsetHardCoded; 
+  } // 
+  trivialJobsets
+  );
+
   jobsetJson = pkgs.writeText "jobsets.json" (builtins.toJSON jobsetAttrs );
+
 in {
   jobsets = pkgs.releaseTools.nixBuild {
     name = "job-for-creating-jobsets";

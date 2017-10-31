@@ -1,0 +1,26 @@
+{
+  "1": {
+    "title": "PR1",
+    "head": {
+      "repo": {
+        "owner": {
+          "login": "vcanadi"
+        },
+        "name": "test-declarative-proj-src"
+      },
+      "ref": "test-branchA-commit"
+    }
+  },
+  "2": {
+    "title": "PR2",
+    "head": {
+      "repo": {
+        "owner": {
+          "login": "vcanadi"
+        },
+        "name": "test-declarative-proj-src"
+      },
+      "ref": "test-branchB-commit"
+    }
+  }
+}

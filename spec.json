@@ -12,6 +12,7 @@
   "inputs": {
     "src": { "type": "path", "value": "/home/hydra/test-declarative-proj-src", "emailresponsible": false }
   , "nixpkgs": { "type": "git", "value": "https://github.com/NixOS/nixpkgs-channels.git nixos-17.09", "emailresponsible": false }
+  , "trivialJobsetsPrsJSON": { "type": "path", "value": "/home/hydra/test-declarative-proj-src/trivial-jobsets-prs.json", "emailresponsible": false }
   }
 
 }
