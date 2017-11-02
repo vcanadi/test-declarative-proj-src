@@ -1,27 +1,30 @@
 # test-declarative-proj-src
 Declarative local creation of Hydra jobsets   
 
-1 create linux/nixos hydra user 
-  generally not needed, but here paths are absolute (/home/hydra/test-declarative-proj-src) since relative paths (./) are not possible in hydra's spec.json 
-  alternatively edit local paths in spec.json 
+Main job "simple-program" (`jobs/release.nix`) is not local. It is pulled remotely so local changes to `jobs/release.nix` will not be registered by Hydra   
 
-2 clone this project in`/home/hydra`
+## Install
+1. Create linux/nixos hydra user 
+    - Generally not needed, but here paths are absolute (/home/hydra/test-declarative-proj-src) since relative paths (./) are not possible in hydra's spec.json 
+    - Alternatively edit local paths in spec.json 
 
-3 create postgresql user hydra and db hydra (owned by hydra) 
-  set env var `$HYDRA_DBI` to `dbi:Pg:dbname=hydra;host=localhost;user=hydra;`   
+2. Clone this project in`/home/hydra`
 
-4 create hydra user like described in [https://nixos.org/hydra/manual/]
+3. Create postgresql user hydra and db hydra (owned by hydra) 
+    - Set env var `$HYDRA_DBI` to `dbi:Pg:dbname=hydra;host=localhost;user=hydra;`   
 
-5 login with hydra user in localhost:3000
-  Admin -> Create Project 
-    set enable to true
-    choose name and description
-    set Declarative spec file to `spec.json`
-    set Declarative input type to `Local path` and value to spec.json directory (`/home/hydra/test-declarative-proj-src`)
+4. Create hydra user like described in https://nixos.org/hydra/manual/
 
-6 start `hydra-evaluator` and `hydra-queue-runner` in separate shells 
+5. Login with hydra user in localhost:3000
+    -  Admin -> Create Project 
+        - Set enable to true
+        - Choose name and description
+        - Set Declarative spec file to `spec.json`
+        - Set Declarative input type to `Local path` and value to spec.json directory (`/home/hydra/test-declarative-proj-src`)
 
-7 jobsets should start appear in localhost:3000 interface 
-  first initial `.jobsets` jobset then trivial jobsets after .jobsets is evalueted and built  
+6. Start `hydra-evaluator` and `hydra-queue-runner` in separate shells 
+
+7. Jobsets should start appear in localhost:3000 interface 
+    - First .jobsets` jobset, then trivial jobsets after .jobsets is evalueted and built  
 
 
