@@ -8,7 +8,7 @@
         },
         "name": "test-declarative-proj-src"
       },
-      "ref": "test-branchA-commit"
+      "ref": "master"
     }
   },
   "2": {
@@ -20,7 +20,7 @@
         },
         "name": "test-declarative-proj-src"
       },
-      "ref": "test-branchB-commit"
+      "ref": "master"
     }
   }
 }
